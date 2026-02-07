@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= project.title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #counterNum::-webkit-outer-spin-button,
+        #counterNum::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        #counterNum {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-emerald-950">
+    <%- include('partials/navbar') %>
+
+<div class="grid grid-flow-col grid-cols-3 gap-4 bg-emerald-300">
+    <div class="col-start-1">
+        <h2><%= project.title  %></h2>
+        <h4>By: <%= pattern.writer  %></h4>
+        <span><%= project.progress %>% Complete</span>
+    </div>
+    <div class="col-start-1">
+        <p>Colors: <%= pattern.numOfColors %></p>
+        <div>
+            <% project.colors.forEach(color => { %>
+            <h3><%= color.colorName %></h3>
+            <span><%=color.brand  %></span>
+            <%}) %>
+        </div>
+    </div>
+    
+    <% project.parts.forEach((part,index) => { %>
+        <% if(part.complete) {%>
+            <div class="col-start-1 bg-lime-300"><%= part.part  %></div>
+        <% }else if(part.active){ %>
+            <div class="col-start-1 bg-orange-300"><%= part.part  %></div>
+        <% }else { %>
+            <div class="col-start-1 bg-emerald-700">
+                <span><%= part.part  %></span>
+                <form method="POST" action="/project/part/<%= project._id %>/<%= index %>" class="inline bg-lime-300 rounded-full ">
+                        <button type="Submit">></button>
+            </form>
+            </div>
+        <% } %>
+    <% }) %>
+    <!-- Counter -->
+    <div class="col-start-2 col-span-2">
+        <% if(activePart && activePart.quantityCompleted < activePart.quantity) {%>
+            <div class="flex items-center gap-2">
+                <form method="POST" action="/project/part/rowCount/<%= project._id %>/<%= project.parts.findIndex(p => p.active) %>" id="counter">
+                    <div class="flex items-center gap-2">
+            <button type="button" id="decrement-btn" class="px-3 py-2 bg-orange-700 text-white rounded-full">−</button>
+            <input type="number" id="counterNum" name="counterNum" max="<%= activePart.rows %>" min="0" value="<%= activePart.currentRow %>" class="w-16 text-center bg-transparent border-0">
+            <button type="button" id="increment-btn" class="px-3 py-2 bg-orange-700 text-white rounded-full">+</button>
+            <button type="submit" class=" blockpx-4 py-2 bg-emerald-700 text-white rounded-full">Save</button>
+        </div>
+    </form>
+</div>
+<% } %>
+
+
+    </div>
+    <div class="col-start-2 col-span-2">
+        <h2><%= activePart.part %></h2>
+        Completed <%=activePart.quantityCompleted  %> of <%=activePart.quantity  %> 
+    </div>
+    <div class="col-start-2 col-span-2">Progress</div>
+    <div class="col-start-2 col-span-2">Timer</div>
+
+
+</div>
+
+    <div>
+        <a href="/project/edit/<%= project._id%>">Edit</a>
+        <form action="/project/delete/<%= project._id%>" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+    </div>
+    
+    
+    
+    <script src="/counter.js"></script>
+</body>
+</html>

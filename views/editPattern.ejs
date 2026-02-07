@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Pattern</title>
+</head>
+<body>
+  
+    <%- include('partials/navbar') %>
+
+    <div>
+        <div>
+            <div>
+                <h2>Edit Pattern</h2>
+                <form action="/edit/<%= pattern._id %>" method="POST">
+                    <div>
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" value="<%= pattern.title %>" required>
+                    </div>
+                     <div>
+                        <label for="writer">Writer</label>
+                        <input type="text" id="writer" name="writer" value="<%= pattern.writer %>" required>
+                    </div>
+                     <div>
+                        <label for="source">Source</label>
+                        <input type="text" id="source" name="source" value="<%= pattern.source %>"  required>
+                    </div>
+                     <div>
+                        <label for="numOfColors">Number of Colors</label>
+                        <input type="number" id="numOfColors" name="numOfColors"  value="<%= pattern.numOfColors %>"  required>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <div>
+                <h2>Parts</h2>
+                <% pattern.parts.forEach(part => { %>
+                    <form action="/edit/addPart/<%= pattern._id%>" method="POST">
+                    <div>
+                        <label for="part">Part</label>
+                        <input type="text" id="part" name="part" value="<%= part.part %>" required>
+                    </div>
+                     <div>
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity"  value="<%= part.quantity %>" required>
+                    </div>
+                      <div>
+                        <label for="rows">Number of Rows</label>
+                        <input type="number" id="rows" name="rows" value="<%= part.rows %>" required>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+               <% }) %>
+                
+            </div>
+            <div>
+                <h2>Add Parts to Pattern</h2>
+                <form action="/pattern/edit/addPart/<%= pattern._id%>" method="POST">
+                    <div>
+                        <label for="part">Part</label>
+                        <input type="text" id="part" name="part" required>
+                    </div>
+                     <div>
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" required>
+                    </div>
+                      <div>
+                        <label for="rows">Number of Rows</label>
+                        <input type="number" id="rows" name="rows" required>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <a href="/pattern/<%= pattern._id %>">Back to Pattern</a>
+        </div>
+    </div>
+</body>
+</html>
+
+

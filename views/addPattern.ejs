@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload a Cat</title>
+    <!-- add stylesheet -->
+</head>
+<body>
+    
+    <%- include("partials/navbar") %>
+
+    <div>
+        <div>
+            <div>
+                <h2>Upload a Pattern</h2>
+                <form action="/pattern/upload" method="POST" >
+                    <div>
+                        <label for="title">Name</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                     <div>
+                        <label for="writer">By</label>
+                        <input type="text" id="writer" name="writer" required>
+                    </div>
+                    <div>
+                        <label for="source">Source</label>
+                        <input type="text" id="source" name="source" required>
+                    </div>
+                     <div>
+                        <label for="numOfColors">Number of Colors</label>
+                        <input type="number" id="numofColors" name="numOfColors" required>
+                    </div>
+                    <button type="submit">Continue</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

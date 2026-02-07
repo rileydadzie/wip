@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start New Project</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div>
+                <h2>Start New Project</h2>
+                <form action="/project/create/<%= pattern._id %>" method="POST" >
+                    <div>
+                        <label for="title">Name</label>
+                        <input type="text" id="title" name="title" value="<%= pattern.title %>" required>
+                    </div>  
+                    <div>  
+                        <label for="yarn">Yarn</label>
+                        <select name="brand" id="brandName">
+                            <option value="brand" selected disabled>Brand</option>
+                            <option value="bernat">Bernat</option>
+                            <option value="bigTwist">Big Twist</option>
+                            <option value="premier">Premier</option>
+                        </select>
+                        <input type="text" placeholder="collection" id="collection" name="collection">
+                        <input type="text" placeholder="color name" id="colorName" name="colorName">
+                        <input type="color" name="colorCode" id="colorCode">
+                    </div>
+                    <button type="submit">Next</button>
+                </form>
+            </div>
+</body>
+</html>

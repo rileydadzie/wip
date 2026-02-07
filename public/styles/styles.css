@@ -1,0 +1,38 @@
+body {
+        background-color: #123524;
+        font-size: 30px;
+        color: lightblue;
+    }
+    input {
+        font-size: 60px;
+    }
+    a {
+        text-decoration: none;
+        color: #c2452d;
+    }
+    div.active {
+      background-color: lightblue;
+      color: #123524;
+      height: 350px;
+    }
+    .part button {
+        font-size: 40px;
+    }
+    .hide {
+        display: none;
+    }
+
+    ul {
+        list-style-type: none;
+        display: inline;
+    }
+
+    .part{
+        height: 200px;
+        border: 2px solid #c2452d;
+    }
+
+    .complete {
+        background-color: lightgreen;
+        color: #123524;
+    }

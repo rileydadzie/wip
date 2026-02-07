@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div>
+        <a href="/pattern/edit/<%= pattern._id%>">Edit</a>
+            <form action="/pattern/delete/<%= pattern._id%>" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+    </div>
+    
+    <h2><%= pattern.title  %></h2>
+    <h4>By: <%= pattern.writer  %></h4>
+    <p>Colors: <%= pattern.numOfColors %></p>
+    <% pattern.parts.forEach(part => { %>
+                    <h3><%= part.part  %></h3>
+                    <p>Quantity <%= part.quantity%></p>
+               <% }) %>
+    <a href="/project/add/<%= pattern._id %>">Make it</a>
+</body>
+</html>
