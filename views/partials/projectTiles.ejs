@@ -2,9 +2,10 @@
     <h2>Projects</h2>
     <div class="flex flex-wrap">
         <% projects.forEach(project => { %>
-            <div class="w-80 h-80  bg-emerald-200 m-4 justify-items-center">
+            <div class="w-80 h-80  bg-emerald-200 m-4 justify-items-center rounded-3xl">
+                <div class="w-80 h-40 bg-orange-200 rounded-t-3xl"></div>
                 <h3><%= project.title %></h3>
-                <span class="block">54% complete</span>
+                <span class="block"><%= project.progress %>% complete</span>
                 <div>
                     <a href="/project/<%= project._id %>" class="block h-10 bg-orange-700 w-80 text-center text-lg">See Project</a>
                 </div>

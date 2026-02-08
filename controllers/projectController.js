@@ -161,7 +161,7 @@ const updateRow = async (req,res) => {
         console.log(err)
     }
  }
- const markCompletePart = async (req,res) => {
+ const markCompletePart = async (req,res, next) => {
     try{
         const project = await Project.findById(req.params.projectId)
         const partIndex = Number(req.params.partIndex)
@@ -182,7 +182,7 @@ const updateRow = async (req,res) => {
                 }
             )
         }
-        res.redirect('/project/' + req.params.projectId)
+        return next()
     }catch (err){
         console.log(err)
     }
@@ -213,7 +213,8 @@ const projectPage = async (req,res) => {
         const project = await Project.findById(req.params.id)
         const pattern = await Pattern.findById(project.pattern)
         const activePart = project.parts.find(part => part.active === true) || null
-        res.render('project', {project:project, pattern:pattern, activePart:activePart})
+        const activePartIndex = project.parts.findIndex(part => part.active === true)
+        res.render('project', {project:project, pattern:pattern, activePart:activePart, activePartIndex: activePartIndex})
     }catch (err) {
         console.log(err)
     }

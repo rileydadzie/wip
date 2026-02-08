@@ -33,16 +33,18 @@ projectRouter
     .route('/part/rowCount/:projectId/:partIndex')
     .post(projectController.updateRow)
 
+projectRouter
+    .route('/finishPart/:projectId/:partIndex')
+    .post(projectController.finishPart, projectController.markCompletePart, projectController.updateProgress)
+    
+
     projectRouter  
     .route('/part/:projectId/:partIndex')
     .post(projectController.setActivePart)
 
 
 
-projectRouter
-    .route('/part/finishPart/:projectId/:partIndex')
-    .post(projectController.finishPart, projectController.updateProgress)
-    
+
 
 projectRouter
     .route('/nextpart/:projectId/:partIndex')

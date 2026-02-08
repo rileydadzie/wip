@@ -4,6 +4,8 @@ const colorSchema = new mongoose.Schema({
     collection: String,
     colorName: String,
     colorCode: String,
+    startWeight: Number,
+    endWeight: Number,
     weight: Number
 })
 
