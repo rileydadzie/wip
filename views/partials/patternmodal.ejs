@@ -1,0 +1,39 @@
+ <div class="bg-white  rounded-lg shadow-lg max-w-2xl w-4/5 mx-4 ">
+    <div class="bg-orange-700 col-span-2 w-full rounded-t-lg relative">
+        <h3 class="text-white text-2xl text-center">Add Part</h3>
+        <button id="close-modal-btn" class="text-white hover:text-gray-700 absolute top-1 right-2">&times;</button>
+    </div>
+    <div class="p-6 flex place-content-center">
+            <form class="w-3/4" action="/pattern/addPart/<%= pattern._id%>" method="POST">
+            <div class="flex flex-col gap-3">
+                <div class="border-4 border-emerald-700">
+                    <div class="h-30 w-full  bg-emerald-700 text-white text-center">
+                        <label for="part" class="text-2xl">Part</label>
+                    </div>
+                    <input type="text" id="part" name="part" required class="bg-slate-200 w-full p-2">
+                </div>
+                <div class="border-4 border-emerald-700">
+                    <div class="h-30 w-full  bg-emerald-700 text-white text-center">
+                        <label for="quantity" class="text-2xl">Quantity</label>
+                    </div>
+                    <input type="number" id="quantity" name="quantity" required class="bg-slate-200 w-full p-2">
+                </div>
+                <div class="border-4 border-emerald-700">
+                    <div class="h-30 w-full  bg-emerald-700 text-white text-center">
+                        <label for="rows" class="text-2xl">Number of Rows</label>
+                    </div>
+                    <input type="number" id="rows" name="rows" required class="bg-slate-200 w-full p-2">
+                </div>
+
+                <button type="submit" class=" blockpx-4 py-2 bg-orange-700 text-white rounded-full w-full h-10  hover:bg-lime-300 hover:text-emerald-700">Submit</button>
+            </div>
+                    
+                </form>
+        
+            </div>
+                </div>
+                    
+                </div>
+                </div>
+                
+                

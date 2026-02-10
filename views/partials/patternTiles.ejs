@@ -1,9 +1,14 @@
 <div>
-    <h2>Patterns</h2>
+    
     <div class="flex flex-wrap ">
+        <!-- Add Pattern -->
+            <div class="w-80 h-80  bg-emerald-700 border-5 border-slate-200 m-4 justify-items-center rounded-3xl">
+                <button id="addPattern" class="bg-emerald-700 hover:bg-orange-700 text-emerald-200 font-bold w-80 h-80 py-4 px-4 rounded-3xl text-9xl">+</button>
+            </div>
     <% patterns.forEach(pattern => { %>
-        <div class="w-80 h-80  bg-emerald-200 m-4 justify-items-center rounded-3xl">
-            <div>
+        <div class="w-80 h-80  bg-emerald-200 m-4 justify-items-center rounded-3xl relative">
+            <a href="/pattern/<%= pattern._id%>">
+                <div>
                 <div class="w-80 h-40 bg-orange-200 rounded-t-3xl"></div>
                 <!-- <img src="/images/" alt="cat image"> -->
                 <div class="p-4">
@@ -14,8 +19,8 @@
                     </p>
                 </div>
             </div>
-            <div class="flex flex-col items-center">
-                <a href="/pattern/<%= pattern._id%>" class="block ">See More</a>
+            </a>
+            <div class="absolute bottom-0">
                 <a href="/project/add/<%= pattern._id %>" class="block h-10 bg-orange-700 w-80 text-center text-lg rounded-b-3xl">Make it</a>
             </div>
         </div>

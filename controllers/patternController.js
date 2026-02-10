@@ -70,7 +70,7 @@ const addPart = async (req,res) => {
         const rows = req.body.rows
         const totalRows = quantity * rows
               await Pattern.findByIdAndUpdate(
-            {_id: req.params.id},
+            {_id: req.params.patternId},
             {
                 $push: {parts: { 
                 part:req.body.part, 
@@ -82,7 +82,7 @@ const addPart = async (req,res) => {
         }
             
             )
-        res.redirect('/pattern/edit/' + req.params.id)
+        res.redirect('/pattern/' + req.params.patternId)
     }catch(err) {
         console.log(err)
     }

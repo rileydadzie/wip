@@ -4,7 +4,7 @@ const projectRouter = express.Router()
 
 projectRouter
     .route('/add/:id')
-    .get(projectController.add)
+    .get(projectController.createProject)
 
 projectRouter
     .route('/create/:id')

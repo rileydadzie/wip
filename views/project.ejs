@@ -19,100 +19,142 @@
 <body class="bg-emerald-950">
     <%- include('partials/navbar') %>
 
-<div class="grid grid-flow-col grid-cols-3 gap-4 bg-emerald-300">
-    <div class="col-start-1">
-        <h2><%= project.title  %></h2>
-        <h4>By: <%= pattern.writer  %></h4>
-        <span><%= project.progress %>% Complete</span>
+    <div id="yarnModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-screen hidden">
+        <%- include('partials/projectmodal') %>
+     </div>
+
+
+<div class="grid grid-flow-col grid-cols-3 gap-4 m-6 ">
+    <!-- Pattern Info -->
+    <div class="col-start-1 bg-slate-200 rounded-xl h-32">
+        <div class="bg-orange-700 col-span-2 w-full h-12 rounded-t-lg">
+            <h2 class="text-white text-4xl text-center"><%= project.title  %></h2>
+        </div>
+        <div class="flex flex-col text-center p-4">
+            <h4 class="uppercase text-md text-center content-center"><%= pattern.writer  %></h4>
+            <span class="text-center text-lg"><%= pattern.source %></span>
+        </div>
+        
     </div>
-    <div class="col-start-1">
-        <p>Colors:</p>
-        <div class="flex justify-evenly ">
+
+<!-- Yarn Colors -->
+    <div class="col-start-1 bg-slate-200 rounded-xl flex flex-col">
+        <div class="bg-slate-400 col-span-2 w-full h-12 rounded-t-lg grid place-items-center ">
+            <h2 class="text-white text-2xl text-center">Colors</h2>
+        </div>
+        <div class="flex justify-evenly grow items-center p-3">
             <% project.colors.forEach(color => { %>
                 <% if(color.colorName === "") { %>
-                    <button id="addYarn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Yarn</button>
-                    <div id="yarnModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-                        <%- include('partials/addYarn') %>
-                    </div>
                     <a href="/project/edit/<%= project._id%>">
-                    <div class="grid place-items-center w-20 h-20 rounded-full bg-emerald-700 ">
-                        <span class="text-3xl text-emerald-200">+</span> 
-                    </div>
-                </a>
+                        <div class="grid place-items-center w-20 h-20 rounded-full bg-emerald-700 ">
+                            <span class="text-3xl text-emerald-200">+</span> 
+                        </div>
+                    </a>
                 <% }else { %>
-                     <div class="flex flex-col">
+                     <div class="flex flex-col justify-center  items-center">
                 <div class="w-20 h-20 rounded-full bg-[<%= color.colorCode %>]"></div>
-                <h3 class="text-center text-2xl"><%= color.colorName %></h3>
-                <span class="text-center text-base"><%=color.brand  %></span>
+                <h3 class="text-center text-xl"><%= color.colorName %></h3>
+                <span class="text-center text-base uppercase"><%=color.brand  %></span>
             </div>
                 <% } %>
             <%}) %>
-            <% if(pattern.numOfColors > project.colors.length) { %>
-                <a href="/project/edit/<%= project._id%>">
-                    <div class="grid place-items-center w-20 h-20 rounded-full bg-emerald-700 ">
-                        <span class="text-3xl text-emerald-200">+</span> 
-                    </div>
-                </a>
-            <%} %>
+            <%if (project.colors.length === 0 || pattern.numOfColors > project.colors.length) { %>
+                <button id="addYarn" class="bg-emerald-700 hover:bg-orange-700 text-emerald-200 font-bold w-20 h-20 py-4 px-4 rounded-full text-3xl">+</button>
+           <% } %> 
         </div>
     </div>
-    
-    <% project.parts.forEach((part,index) => { %>
+
+    <!-- Parts -->
+    <div class="col-start-1 row-span-2 flex flex-col gap-1 bg-slate-200 rounded-xl">
+        <div class="bg-slate-400 col-span-2 w-full h-12 rounded-t-lg grid place-items-center">
+            <h2 class="text-white text-2xl text-center">Parts</h2>
+        </div>
+        <div class=" flex flex-col gap-1 p-2">
+            <% project.parts.forEach((part,index) => { %>
         <% if(part.complete) {%>
-            <div class="col-start-1 bg-lime-300  h-30 rounded-full">
-                <h4 class="text-center text-5xl"><%= part.part  %></h4>
+            <div class="col-start-1 px-3 py-2 rounded-full bg-emerald-700 text-white text-3xl flex items-center justify-center ">
+                <h4><%= part.part  %></h4>
             </div>
         <% }else if(part.active){ %>
-            <div class="col-start-1 bg-orange-300 h-30 rounded-x1">
-                <h4 class="text-center text-5xl"><%= part.part  %></h4>
+            <div class="col-start-1 px-3 py-2 rounded-full bg-orange-700 text-white text-3xl flex items-center justify-center ">
+                <h4><%= part.part  %></h4>
             </div>
         <% }else { %>
-            <div class="col-start-1 bg-emerald-700 h-30 rounded-full">
+            <div class="col-start-1 h-30 ">
                 <div class="flex justify-center">
                 <form method="POST" action="/project/part/<%= project._id %>/<%= index %>" class="inline  w-full h-full rounded-full">
-                        <button type="Submit" class="text-center text-5xl w-full h-full rounded-full"><%= part.part  %></button>
+                        <button type="Submit" class="px-3 py-2 rounded-full bg-transparent text-emerald-700 text-3xl flex items-center justify-center w-full h-full hover:bg-lime-300 border-2 border-emerald-700"><%= part.part  %></button>
             </form>
                 </div>
                 
             </div>
         <% } %>
     <% }) %>
+        </div>
+        
+    </div>
+    
     <!-- Counter -->
-    <div class="col-start-2 col-span-2">
+    <div class="col-start-2 col-span-2 w-full relative bg-slate-200 flex items-center justify-center rounded-xl">
         <% if(activePart && activePart.quantityCompleted < activePart.quantity) {%>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center  justify-center gap-2 ">
                 <form method="POST" action="/project/part/rowCount/<%= project._id %>/<%= project.parts.findIndex(p => p.active) %>" id="counter">
                     <div class="flex items-center gap-2">
-                        <button type="button" id="decrement-btn" class="px-3 py-2 bg-orange-700 text-white rounded-full">−</button>
-                        <input type="number" id="counterNum" name="counterNum" max="<%= activePart.rows %>" min="0" value="<%= activePart.currentRow %>" class="w-16 text-center bg-transparent border-0">
-                        <button type="button" id="increment-btn" class="px-3 py-2 bg-orange-700 text-white rounded-full">+</button>
-                        <button type="submit" class=" blockpx-4 py-2 bg-emerald-700 text-white rounded-full">Save</button>
+                        <button type="button" id="decrement-btn" class="px-3 py-2 bg-orange-700 text-white rounded-full w-20 h-20 text-4xl">−</button>
+                        <input type="number" id="counterNum" name="counterNum" max="<%= activePart.rows %>" min="0" value="<%= activePart.currentRow %>" class="w-20 h-20 text-center bg-transparent border-0 text-6xl">
+                        <button type="button" id="increment-btn" class="px-3 py-2 bg-orange-700 text-white rounded-full w-20 h-20 text-4xl">+</button>
+                        <button type="submit" class=" blockpx-4 py-2 bg-emerald-700 text-white rounded-full w-20 h-10 absolute top-1 right-1 hover:bg-lime-300 hover:text-emerald-700">Save</button>
                     </div>
                 </form>
             </div>
         <% } %>
-        <div id="finishPart" class="hidden">
-            <form action="/project/finishPart/<%= project._id %>/<%= activePartIndex %>" method="POST">
-                <button type="submit">Done</button>
-            </form>
+    </div>
+
+
+    <!-- Progress Checkmarks -->
+     <div class="col-start-2 col-span-2 w-full bg-slate-200 grid place-items-center rounded-xl">
+        <div class="flex items-center gap-2  justify-center">
+            <%if(activePart) { %>
+                <% for(let i=1; i<= activePart.quantity; i++) { %>
+                <% if( i <= activePart.quantityCompleted) { %>
+                    <div class="px-3 py-2 w-20 h-20 rounded-full bg-emerald-700 text-white text-4xl flex items-center justify-center">
+                        <span >&check;</span>
+                    </div>
+                <% }else if (i === (activePart.quantityCompleted + 1)) { %>
+                    <div id="finishPart" >
+                        <form action="/project/finishPart/<%= project._id %>/<%= activePartIndex %>" method="POST">
+                            <button disabled type="submit" id="finishBtn" class="px-3 py-2 bg-transparent text-emerald-700 border-2 border-emerald-700 rounded-full w-20 h-20 text-4xl">&check;</button>
+                        </form>
+                    </div>
+                <% }else{ %>
+                    <div class="px-3 py-2 bg-transparent text-emerald-700 border-2 border-emerald-700 rounded-full w-20 h-20 text-4xl flex items-center justify-center">
+                        <span>&check;</span>
+                    </div>
+                <% } %>
+            <% } %>
+            
+           <% } %>
+            
         </div>
-        
+     </div>
 
+     <!--  Total Progress -->
+       <div class="col-start-2 bg-slate-400 w-full grid place-items-center rounded-xl">
+            <h4 class="text-7xl text-slate-600"><%= project.progress %> %</h4>
+       </div>
 
-    </div>
-    <div class="col-start-2 col-span-2">
-        <% if(activePart) { %>
-            <h2><%= activePart.part %></h2>
-        Completed <%=activePart.quantityCompleted  %> of <%=activePart.quantity  %>
-        <% }%>
-         
-    </div>
-    <div class="col-start-2 col-span-2">Progress</div>
-    <div class="col-start-2 col-span-2">Timer</div>
+       <!-- Stats -->
+     <div class="col-start-2 col-span-2 bg-slate-400 grid place-items-center rounded-xl">
+        <h4 class="text-7xl text-slate-600">Stats</h4>
+     </div>
 
-
+       <!--  Timer -->
+       <div class="col-start-3 bg-slate-400 w-full grid place-items-center rounded-xl">
+            <h4 class="text-7xl text-slate-600">Timer</h4>
+       </div>
 </div>
 
+    
     <div>
         <a href="/project/edit/<%= project._id%>">Edit</a>
         <form action="/project/delete/<%= project._id%>" method="POST">
@@ -121,7 +163,7 @@
     </div>
     
     
-    <script src="/yarnmodal.js"></script>
+    <script src="/projectmodals.js"></script>
     <script src="/counter.js"></script>
 </body>
 </html>

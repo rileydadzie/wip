@@ -9,12 +9,17 @@ const patternRouter = express.Router()
 
 patternRouter   
     .route('/upload')
-    .get(patternController.uploadPage)
     .post(patternController.createPattern)
+
+patternRouter
+    .route('/addPart/:patternId')
+    .post(patternController.addPart)
 
 patternRouter
     .route('/:id')
     .get(patternController.patternPage)
+
+
 
 
 patternRouter
@@ -22,9 +27,9 @@ patternRouter
     .get(patternController.editPage)
     .post(patternController.updatePattern)
 
-patternRouter
-    .route('/edit/addPart/:id')
-    .post(patternController.addPart)
+
+
+
 
 patternRouter  
     .route('/delete/:id')

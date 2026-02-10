@@ -30,21 +30,15 @@ const createProject = async (req,res) => {
             })
         })
         const project = new Project ({
-            title: req.body.title,
+            title: pattern.title,
             progress: 0,
             pattern: req.params.id,
             projectRows: pattern.patternRows,
             completedRows:0,
-            parts: projectParts,
-            colors: [{
-                brand: req.body.brand,
-                collection: req.body.collection,
-                colorName: req.body.colorName,
-                colorCode: req.body.colorCode
-            }]
+            parts: projectParts
         })
         await project.save()
-        res.redirect('/project/edit/' + project._id)
+        res.redirect('/project/' + project._id)
     } catch(err) {
         console.log(err)
     }
@@ -70,7 +64,7 @@ const addYarn = async (req,res) => {
                 colorCode: req.body.colorCode
             }}}
         )
-        res.redirect('/project/edit/' + req.params.id)
+        res.redirect('/project/' + req.params.id)
     } catch(err) {
         console.log(err)
     }
@@ -151,6 +145,9 @@ const updateRow = async (req,res) => {
                 $inc: {
                     [`parts.${partIndex}.quantityCompleted`] : 1,
                     completedRows: rows
+                },
+                $set: {
+                    [`parts.${partIndex}.currentRow`] : 0
                 }
 
             }
