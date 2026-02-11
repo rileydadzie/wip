@@ -3,6 +3,10 @@ const projectController = require('../controllers/projectController')
 const projectRouter = express.Router()
 
 projectRouter
+    .route('/complete/:projectId')
+    .post(projectController.complete)
+    
+projectRouter
     .route('/add/:id')
     .get(projectController.createProject)
 
@@ -15,19 +19,15 @@ projectRouter
     .post(projectController.addYarn)
 
 
+
 projectRouter
     .route('/edit/:id')
     .get(projectController.editProject)
     .post(projectController.updateProject) 
 
 projectRouter
-    .route('/:id')
-    .get(projectController.projectPage)
-
-projectRouter
     .route('/delete/:id')
     .post(projectController.deleteProject)
-
 
 projectRouter
     .route('/part/rowCount/:projectId/:partIndex')
@@ -36,17 +36,23 @@ projectRouter
 projectRouter
     .route('/finishPart/:projectId/:partIndex')
     .post(projectController.finishPart, projectController.markCompletePart, projectController.updateProgress)
-    
 
-    projectRouter  
+
+projectRouter  
     .route('/part/:projectId/:partIndex')
     .post(projectController.setActivePart)
-
-
-
-
 
 projectRouter
     .route('/nextpart/:projectId/:partIndex')
     .post(projectController.markCompletePart)
+
+
+
+projectRouter
+    .route('/:id')
+    .get(projectController.projectPage)
+
+
+
+
 module.exports = projectRouter

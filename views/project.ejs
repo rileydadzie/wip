@@ -31,8 +31,8 @@
             <h2 class="text-white text-4xl text-center"><%= project.title  %></h2>
         </div>
         <div class="flex flex-col text-center p-4">
-            <h4 class="uppercase text-md text-center content-center"><%= pattern.writer  %></h4>
-            <span class="text-center text-lg"><%= pattern.source %></span>
+            <h4 class="uppercase text-md text-center content-center text-emerald-700"><%= pattern.writer  %></h4>
+            <span class="text-center text-lg text-emerald-700"><%= pattern.source %></span>
         </div>
         
     </div>
@@ -53,8 +53,8 @@
                 <% }else { %>
                      <div class="flex flex-col justify-center  items-center">
                 <div class="w-20 h-20 rounded-full bg-[<%= color.colorCode %>]"></div>
-                <h3 class="text-center text-xl"><%= color.colorName %></h3>
-                <span class="text-center text-base uppercase"><%=color.brand  %></span>
+                <h3 class="text-center text-xl text-emerald-700"><%= color.colorName %></h3>
+                <span class="text-center text-base uppercase text-emerald-800"><%=color.brand  %></span>
             </div>
                 <% } %>
             <%}) %>
@@ -83,7 +83,7 @@
             <div class="col-start-1 h-30 ">
                 <div class="flex justify-center">
                 <form method="POST" action="/project/part/<%= project._id %>/<%= index %>" class="inline  w-full h-full rounded-full">
-                        <button type="Submit" class="px-3 py-2 rounded-full bg-transparent text-emerald-700 text-3xl flex items-center justify-center w-full h-full hover:bg-lime-300 border-2 border-emerald-700"><%= part.part  %></button>
+                        <button type="Submit" class="px-3 py-2 rounded-full bg-transparent text-emerald-700 text-3xl flex items-center justify-center w-full h-full hover:bg-lime-300 border-2 border-emerald-700"><%= part.part %></button>
             </form>
                 </div>
                 
@@ -139,18 +139,23 @@
      </div>
 
      <!--  Total Progress -->
-       <div class="col-start-2 bg-slate-400 w-full grid place-items-center rounded-xl">
-            <h4 class="text-7xl text-slate-600"><%= project.progress %> %</h4>
+       <div class="col-start-2 bg-slate-200 w-full grid place-items-center rounded-xl">
+            <h4 class="text-7xl text-emerald-700"><%= project.progress %> %</h4>
        </div>
 
        <!-- Stats -->
      <div class="col-start-2 col-span-2 bg-slate-400 grid place-items-center rounded-xl">
-        <h4 class="text-7xl text-slate-600">Stats</h4>
+        <h4 class="text-4xl text-slate-600">nothing to see here</h4>
      </div>
 
        <!--  Timer -->
        <div class="col-start-3 bg-slate-400 w-full grid place-items-center rounded-xl">
-            <h4 class="text-7xl text-slate-600">Timer</h4>
+            <% if(project.progress === 100){ %>
+                <form action="/project/complete/<%= project._id %>" method="POST">
+                    <button type="submit" class="h-40 w-40 rounded-full bg-orange-700 text-white text-xl">Done</button>
+                </form>
+           <% } %>
+            
        </div>
 </div>
 

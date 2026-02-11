@@ -32,10 +32,17 @@ const createProject = async (req,res) => {
         const project = new Project ({
             title: pattern.title,
             progress: 0,
-            pattern: req.params.id,
+            pattern: pattern._id,
             projectRows: pattern.patternRows,
             completedRows:0,
-            parts: projectParts
+            parts: projectParts,
+            complete: false,
+            timesMade: 0,
+            stopwatch: {
+                accumulatedTime: 0, 
+                isRunning: false
+            }
+
         })
         await project.save()
         res.redirect('/project/' + project._id)
@@ -226,6 +233,26 @@ const deleteProject = async (req,res) => {
     }
 }
 
+const complete = async (req,res) => {
+    try{
+        await Project.updateOne(
+            {_id: req.params.projectId},
+            {
+                $set: {
+                    complete : true
+                },
+                $inc: {
+                    timesMade : 1
+                }
+
+            }
+        )
+    res.redirect('/')
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 
 
@@ -241,6 +268,7 @@ module.exports = {
     updateRow,
     finishPart,
     updateProgress,
-    markCompletePart   
+    markCompletePart,
+    complete   
     // projectPage
 }

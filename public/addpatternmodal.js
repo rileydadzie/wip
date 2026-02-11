@@ -27,3 +27,11 @@ document.addEventListener('keydown', (event) => {
         toggleModal();
     }
 });
+
+// Toggle Add Part on pattern page
+// const submitPattern = document.getElementById('submitAddPattern')
+// const partBtn = document.getElementById('addPart')
+
+// submitPattern.addEventListener('click', () => {
+//     partBtn.classList.toggle('hidden')
+// } )

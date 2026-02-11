@@ -26,13 +26,24 @@
         
     </div>
 
-<!-- Yarn Colors -->
+<!-- Reccomendation -->
     <div class="col-start-1 bg-slate-200 rounded-xl flex flex-col">
         <div class="bg-slate-400 col-span-2 w-full h-12 rounded-t-lg grid place-items-center ">
-            <h2 class="text-white text-2xl text-center">Colors</h2>
+            <h2 class="text-white text-2xl text-center">Recommendations</h2>
         </div>
         <div class="flex justify-evenly grow items-center p-3">
-            
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl"><%= pattern.numOfColors %></span>
+                    <span class="uppercase text-md">Colors</span>
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl">6</span>
+                    <span class="uppercase text-md">Yarn Size</span>
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl">7</span>
+                    <span class="uppercase text-md">Hook Size</span>
+                </div>
         </div>
     </div>
 
@@ -49,41 +60,80 @@
                 </div>  
             </div>
             <% }) %>
-            <div class="flex justify-center">
+            <!-- <div id="addPartBtn" class="flex justify-center ">
             
                         <button id="addPart" class="px-3 py-2 rounded-full bg-transparent text-emerald-700 text-3xl flex items-center justify-center w-full h-full hover:bg-lime-300 border-2 border-emerald-700">Add Part</button>
                     
-                </div>
+                </div> -->
         </div>
         
     </div>
     
     <!-- Counter -->
     <div class="col-start-2 col-span-2 w-full relative bg-slate-200 flex items-center justify-center rounded-xl">
-        
+        <div class="flex justify-evenly grow items-center p-3">
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl"><%= patternProjects.length%></span>
+                    <span class="uppercase text-md">Open Projects</span>
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl">6</span>
+                    <span class="uppercase text-md">Times Made</span>
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl">7</span>
+                    <span class="uppercase text-md">In Stock</span>
+                </div>
+        </div>
     </div>
 
 
     <!-- Progress Checkmarks -->
-     <div class="col-start-2 col-span-2 w-full bg-slate-200 grid place-items-center rounded-xl">
+     <div class="col-start-2 col-span-2 row-span-2 w-full bg-slate-200 flex flex-wrap rounded-xl gap-3 p-5">
+        <div>
+            <% if(patternProjects) { %>
+            <% patternProjects.forEach(project => { %>
+                <div class=" bg-white rounded-xl">
+                    <div class="flex flex-row justify-evenly p-4 gap-1">
+                <% project.colors.forEach(color => { %>
+                    <div class="w-10 h-10 rounded-full bg-[<%= color.colorCode %>]"></div>
+                <% }) %>
+                    </div>
+                    <% if(project.progress === 100) { %>
+                        <div class="w-full bg-orange-700 text-white">
+                            <form action="">
+                                <button class="w-full"> Make Again</button>
+                            </form>
+                        </div>
+
+                    <% }else { %>
+                        <div>
+                            <span> <%= project.progress %>% Complete</span>
+                        </div>
+                        <div class="w-full bg-emerald-700 text-white">
+                           <a href=""> Go to Project</a>
+                        </div>
+                   <% } %>
+            </div>
+        <% }) %>
+        <% } %>
+        </div>
+        
         
         
      </div>
 
-     <!--  Total Progress -->
-       <div class="col-start-2 bg-slate-400 w-full grid place-items-center rounded-xl">
-            
-       </div>
+     
 
        <!-- Stats -->
-     <div class="col-start-2 col-span-2 bg-slate-400 grid place-items-center rounded-xl">
-        <h4 class="text-7xl text-slate-600">Stats</h4>
+     <div class="col-start-2 col-span-2 bg-slate-400 grid place-items-center rounded-full">
+            <div class="h-full w-full rounded-full bg-orange-700 hover:bg-lime-300 hover:text-emerald-700 text-white grid place-content-center">
+                <a href="/project/add/<%= pattern._id %>" class="h-full w-full text-3xl">Make it</a>
+            </div>
+            
      </div>
 
-       <!--  Timer -->
-       <div class="col-start-3 bg-slate-400 w-full grid place-items-center rounded-xl">
-            <h4 class="text-7xl text-slate-600">Timer</h4>
-       </div>
+       
 </div>
 
 
@@ -93,16 +143,8 @@
                 <button type="submit">Delete</button>
             </form>
     </div>
-    
-    <h2><%= pattern.title  %></h2>
-    <h4>By: <%= pattern.writer  %></h4>
-    <p>Colors: <%= pattern.numOfColors %></p>
-    <% pattern.parts.forEach(part => { %>
-                    <h3><%= part.part  %></h3>
-                    <p>Quantity <%= part.quantity%></p>
-               <% }) %>
-    <a href="/project/add/<%= pattern._id %>">Make it</a>
 
     <script src="/patternmodals.js"></script>
+    <script src="/addpatternmodal.js"></script>
 </body>
 </html>
