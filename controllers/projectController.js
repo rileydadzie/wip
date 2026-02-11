@@ -30,21 +30,22 @@ const createProject = async (req,res) => {
             })
         })
         const project = new Project ({
-            title: req.body.title,
+            title: pattern.title,
             progress: 0,
-            pattern: req.params.id,
+            pattern: pattern._id,
             projectRows: pattern.patternRows,
             completedRows:0,
             parts: projectParts,
-            colors: [{
-                brand: req.body.brand,
-                collection: req.body.collection,
-                colorName: req.body.colorName,
-                colorCode: req.body.colorCode
-            }]
+            complete: false,
+            timesMade: 0,
+            stopwatch: {
+                accumulatedTime: 0, 
+                isRunning: false
+            }
+
         })
         await project.save()
-        res.redirect('/project/edit/' + project._id)
+        res.redirect('/project/' + project._id)
     } catch(err) {
         console.log(err)
     }
@@ -70,7 +71,7 @@ const addYarn = async (req,res) => {
                 colorCode: req.body.colorCode
             }}}
         )
-        res.redirect('/project/edit/' + req.params.id)
+        res.redirect('/project/' + req.params.id)
     } catch(err) {
         console.log(err)
     }
@@ -151,6 +152,9 @@ const updateRow = async (req,res) => {
                 $inc: {
                     [`parts.${partIndex}.quantityCompleted`] : 1,
                     completedRows: rows
+                },
+                $set: {
+                    [`parts.${partIndex}.currentRow`] : 0
                 }
 
             }
@@ -229,6 +233,26 @@ const deleteProject = async (req,res) => {
     }
 }
 
+const complete = async (req,res) => {
+    try{
+        await Project.updateOne(
+            {_id: req.params.projectId},
+            {
+                $set: {
+                    complete : true
+                },
+                $inc: {
+                    timesMade : 1
+                }
+
+            }
+        )
+    res.redirect('/')
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 
 
@@ -244,6 +268,7 @@ module.exports = {
     updateRow,
     finishPart,
     updateProgress,
-    markCompletePart   
+    markCompletePart,
+    complete   
     // projectPage
 }

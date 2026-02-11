@@ -5,8 +5,8 @@ const Project = require('../models/projectSchema')
 const getAllPatterns = async (req, res) => {
     try {
         const patterns = await Pattern.find()
-        const projects = await Project.find()
-        res.render('home', {patterns: patterns, projects:projects})
+        const openProjects = await Project.find({complete: false})
+        res.render('home', {patterns: patterns, openProjects:openProjects})
     } catch(err) {
         console.log(err)
     }

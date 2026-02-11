@@ -7,24 +7,31 @@ const patternRouter = express.Router()
 //     .get(patternController.getAllPatterns)
 
 
+patternRouter
+    .route('/edit/:id')
+    .get(patternController.editPage)
+    .post(patternController.updatePattern)
+    
 patternRouter   
     .route('/upload')
-    .get(patternController.uploadPage)
     .post(patternController.createPattern)
+
+patternRouter
+    .route('/addPart/:patternId')
+    .post(patternController.addPart)
 
 patternRouter
     .route('/:id')
     .get(patternController.patternPage)
 
 
-patternRouter
-    .route('/edit/:id')
-    .get(patternController.editPage)
-    .post(patternController.updatePattern)
 
-patternRouter
-    .route('/edit/addPart/:id')
-    .post(patternController.addPart)
+
+
+
+
+
+
 
 patternRouter  
     .route('/delete/:id')

@@ -39,7 +39,7 @@ const createPattern = async (req,res) => {
             
     })
     await pattern.save()
-    res.redirect('/pattern/' + pattern._id)
+    res.redirect('/pattern/edit/' + pattern._id)
 
     } catch(err) {
         console.log(err)
@@ -47,9 +47,11 @@ const createPattern = async (req,res) => {
 }
 
 const patternPage = async (req,res) => {
+    
     try{
         const pattern = await Pattern.findById(req.params.id)
-        res.render('pattern', {pattern:pattern})
+        const patternProjects = await Project.find({pattern: req.params.id}) || null
+        res.render('pattern', {pattern:pattern, patternProjects: patternProjects})
     } catch(err) {
         console.log(err)
     }
@@ -70,7 +72,7 @@ const addPart = async (req,res) => {
         const rows = req.body.rows
         const totalRows = quantity * rows
               await Pattern.findByIdAndUpdate(
-            {_id: req.params.id},
+            {_id: req.params.patternId},
             {
                 $push: {parts: { 
                 part:req.body.part, 
@@ -82,7 +84,7 @@ const addPart = async (req,res) => {
         }
             
             )
-        res.redirect('/pattern/edit/' + req.params.id)
+        res.redirect('/pattern/edit/' + req.params.patternId)
     }catch(err) {
         console.log(err)
     }

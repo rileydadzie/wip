@@ -7,14 +7,29 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-emerald-950 font-mono">
-    
-    <%- include('partials/navbar') %>
-<div class="bg-orange-700 w-full h-96 flex place-content-center">
-    <h1 class="text-9xl  font-extrabold text-white">Keep Making</h1>
-</div>
-<%- include('partials/projectTiles') %>
-<%- include('partials/patternTiles') %>
+<body class="font-sans bg-emerald-950">
 
+    <div id="addPatternModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-screen hidden z-40">
+        <%- include('partials/addPattern') %>
+     </div>
+    
+    
+    <div class="h-screen w-screen">
+            <%- include('partials/navbar') %>
+            
+        <!-- Projects -->
+        <div class="bg-slate-100 h-2/5 min-h-[420px]">
+            <%- include('partials/projectTiles') %>
+        </div>
+        <!-- Patterns -->
+        <div class="bg-emerald-950">
+            <h2 class="text-5xl text-slate-100 font-bold pl-4">Patterns</h2>
+            <%- include('partials/patternTiles') %>
+        </div>
+
+    </div>
+
+
+<script src="/addpatternmodal.js"></script>
 </body>
 </html>

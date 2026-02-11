@@ -1,0 +1,30 @@
+                <div class="bg-white  rounded-lg shadow-lg max-w-2xl w-4/5 mx-4 ">
+                    <div class="bg-orange-700 col-span-2 w-full rounded-t-lg relative">
+                        <h3 class="text-white text-2xl text-center">Add Yarn</h3>
+                        <button id="close-modal-btn" class="text-white hover:text-gray-700 absolute top-1 right-2">&times;</button>
+                    </div>
+                    <div class="p-4">
+                        <form action="/project/addYarn/<%= project._id %>" method="POST" >
+                    <!-- <div>
+                        <label for="title">Name</label>
+                        <input type="text" id="title" name="title" value="PATTERNTITLE" required>
+                    </div>   -->
+                    <div class="text-lg">  
+                        <select name="brand" id="brandName" class="">
+                            <option value="brand" selected disabled>Brand</option>
+                            <option value="Bernat">Bernat</option>
+                            <option value="Big Twist">Big Twist</option>
+                            <option value="Premier">Premier</option>
+                        </select>
+                        <input type="text" placeholder="collection" id="collection" name="collection">
+                        <input type="text" placeholder="color name" id="colorName" name="colorName">
+                        <input type="color" name="colorCode" id="colorCode">
+                    </div>
+                    <button id="close-modal-btn-footer" type="submit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded w-sm h-sm"">Add</button>
+                </form>
+                    </div>
+                    
+                </div>
+                </div>
+                
+                

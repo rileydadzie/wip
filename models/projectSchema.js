@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const colorSchema = new mongoose.Schema({
     brand: String,
-    collection: String,
+    yarnCollection: String,
     colorName: String,
     colorCode: String,
     startWeight: Number,
@@ -22,11 +22,18 @@ const projectPartSchema = new mongoose.Schema({
 const projectSchema = new mongoose.Schema({
     title: String,
     progress: Number,
-    pattern: String,
+    pattern: mongoose.Schema.Types.ObjectId,
     projectRows: Number,
     completedRows: Number,
     colors: [colorSchema],
-    parts: [projectPartSchema]
+    parts: [projectPartSchema],
+    complete: Boolean,
+    timesMade: Number,
+    stopwatch: {
+        startTime: Date,
+        accumulatedTime: Number,
+        isRunning: Boolean
+    }
 })
 
 module.exports = mongoose.model('Project', projectSchema)

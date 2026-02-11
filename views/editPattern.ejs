@@ -3,79 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Pattern</title>
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  
+<body class="bg-emerald-950">
     <%- include('partials/navbar') %>
 
-    <div>
-        <div>
-            <div>
-                <h2>Edit Pattern</h2>
-                <form action="/edit/<%= pattern._id %>" method="POST">
-                    <div>
-                        <label for="title">Title</label>
-                        <input type="text" id="title" name="title" value="<%= pattern.title %>" required>
-                    </div>
-                     <div>
-                        <label for="writer">Writer</label>
-                        <input type="text" id="writer" name="writer" value="<%= pattern.writer %>" required>
-                    </div>
-                     <div>
-                        <label for="source">Source</label>
-                        <input type="text" id="source" name="source" value="<%= pattern.source %>"  required>
-                    </div>
-                     <div>
-                        <label for="numOfColors">Number of Colors</label>
-                        <input type="number" id="numOfColors" name="numOfColors"  value="<%= pattern.numOfColors %>"  required>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-            <div>
-                <h2>Parts</h2>
-                <% pattern.parts.forEach(part => { %>
-                    <form action="/edit/addPart/<%= pattern._id%>" method="POST">
-                    <div>
-                        <label for="part">Part</label>
-                        <input type="text" id="part" name="part" value="<%= part.part %>" required>
-                    </div>
-                     <div>
-                        <label for="quantity">Quantity</label>
-                        <input type="number" id="quantity" name="quantity"  value="<%= part.quantity %>" required>
-                    </div>
-                      <div>
-                        <label for="rows">Number of Rows</label>
-                        <input type="number" id="rows" name="rows" value="<%= part.rows %>" required>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-               <% }) %>
-                
-            </div>
-            <div>
-                <h2>Add Parts to Pattern</h2>
-                <form action="/pattern/edit/addPart/<%= pattern._id%>" method="POST">
-                    <div>
-                        <label for="part">Part</label>
-                        <input type="text" id="part" name="part" required>
-                    </div>
-                     <div>
-                        <label for="quantity">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" required>
-                    </div>
-                      <div>
-                        <label for="rows">Number of Rows</label>
-                        <input type="number" id="rows" name="rows" required>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-            <a href="/pattern/<%= pattern._id %>">Back to Pattern</a>
+
+    <div id="patternModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-screen hidden z-40">
+        <%- include('partials/patternmodal') %>
+     </div>
+    <div class="grid grid-flow-col grid-cols-3 gap-4 m-6 ">
+    <!-- Pattern Info -->
+    <div class="col-start-1 bg-slate-200 rounded-xl h-32">
+        <div class="bg-orange-700 col-span-2 w-full h-12 rounded-t-lg">
+            <h2 class="text-white text-4xl text-center"><%= pattern.title  %></h2>
+        </div>
+        <div class="flex flex-col text-center p-4">
+            <h4 class="uppercase text-md text-center content-center"><%= pattern.writer  %></h4>
+            <span class="text-center text-lg"><%= pattern.source %></span>
+        </div>
+        
+    </div>
+
+<!-- Yarn Colors -->
+    <div class="col-start-1 bg-slate-200 rounded-xl flex flex-col">
+        <div class="bg-slate-400 col-span-2 w-full h-12 rounded-t-lg grid place-items-center ">
+            <h2 class="text-white text-2xl text-center">Recommendations</h2>
+        </div>
+        <div class="flex justify-evenly grow items-center p-3">
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl"><%= pattern.numOfColors %></span>
+                    <span class="uppercase text-md">Colors</span>
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl">6</span>
+                    <span class="uppercase text-md">Yarn Size</span>
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <span class="text-xl">7</span>
+                    <span class="uppercase text-md">Hook Size</span>
+                </div>
         </div>
     </div>
+
+    <!-- Parts -->
+    <div class="col-start-1 row-span-2 flex flex-col gap-1 bg-slate-200 rounded-xl">
+        <div class="bg-slate-400 col-span-2 w-full h-12 rounded-t-lg grid place-items-center">
+            <h2 class="text-white text-2xl text-center">Parts</h2>
+        </div>
+        <div class=" flex flex-col gap-1 p-2">
+            <% pattern.parts.forEach((part,index) => { %>
+            <div class="col-start-1 h-30 ">
+                <div class="col-start-1 px-3 py-2 rounded-full bg-emerald-700 text-white text-3xl flex items-center justify-center ">
+                <h4><%= part.part  %></h4>
+                </div>  
+            </div>
+            <% }) %>
+            <div id="addPartBtn" class="flex justify-center ">
+            
+                        <button id="addPart" class="px-3 py-2 rounded-full bg-transparent text-emerald-700 text-3xl flex items-center justify-center w-full h-full hover:bg-lime-300 border-2 border-emerald-700">Add Part</button>
+                    
+                </div>
+        </div>
+        
+    </div>
+    
+    <!-- Counter -->
+    <div class="col-start-2 col-span-2 w-full relative bg-slate-200 flex items-center justify-center rounded-xl">
+        
+    </div>
+
+
+    <!-- Progress Checkmarks -->
+     <div class="col-start-2 col-span-2 w-full bg-slate-200 grid place-items-center rounded-xl">
+        
+        
+     </div>
+
+     <!--  Total Progress -->
+       <div class="col-start-2 bg-slate-400 w-full grid place-items-center rounded-xl">
+            
+       </div>
+
+       <!-- Stats -->
+     <div class="col-start-2 col-span-2 bg-slate-400 grid place-items-center rounded-xl">
+            <div class="h-1/2 w-1/3 rounded-full bg-orange-700 hover:bg-lime-300 hover:text-emerald-700 text-white grid place-content-center">
+                <a href="/pattern/<%= pattern._id %>" class="h-full w-full text-3xl">Done</a>
+            </div>
+            
+     </div>
+
+       <!--  Timer -->
+       <div class="col-start-3 bg-slate-400 w-full grid place-items-center rounded-xl">
+            <h4 class="text-7xl text-slate-600">Timer</h4>
+       </div>
+</div>
+
+
+    <div>
+        <a href="/pattern/edit/<%= pattern._id%>">Edit</a>
+            <form action="/pattern/delete/<%= pattern._id%>" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+    </div>
+
+    <script src="/patternmodals.js"></script>
+    <script src="/addpatternmodal.js"></script>
 </body>
 </html>
-
 
