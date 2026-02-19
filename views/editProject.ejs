@@ -10,16 +10,17 @@
     <%- include('partials/navbar') %>
 
     <div class="bg-white w-3/5 m-auto mt-6 rounded-3xl">
-        <div class="bg-orange-700 h-20 rounded-t-3xl flex justify-center justify-items-center">
-            <h1><%= project.title %></h1>
+        <div class="bg-orange-700 h-20 rounded-t-3xl flex justify-center items-center relative">
+            <h1 class="text-3xl text-white text-center"><%= project.title %></h1>
+            <span class="absolute top-3 right-3">Edit Name</span>
         </div>
         <div class="flex flex-col">
             <% project.colors.forEach(color => { %>
-                        <div class="flex justify-between w-full h-20 m-5 shadow-lg rounded-lg">
+                        <div class="flex justify-between  h-20 m-5 shadow-lg rounded-lg">
                             <div class="w-20 h-20 rounded-l-lg bg-[<%= color.primaryColorCode %>]"></div>
-                            <div>
-                                <span><%= color.colorName %></span>
-                                <span><%= color.yarnCollection %></span>
+                            <div class="flex flex-col ">
+                                <span class="text-lg text-emerald-700"><%= color.colorName %></span>
+                                <span class="text-md text-emerald-800 uppercase"><%= color.yarnCollection %></span>
                             </div>
                             <div>
                                 <span>Start</span>
@@ -33,18 +34,33 @@
                         </div>
                    <% }) %>
         </div>
-
-    </div>
-    <div>
-                <h2><%= project.title %></h2>
-                <div>
-                    <h3>Yarn</h3>
-                    <% project.colors.forEach(color => { %>
-                        <p><span><%= color.brand %></span> <%= color.colorName %></p>
-                   <% }) %>
+        <div>
+            <% project.parts.forEach((part,index) => { %>
+                <div class="flex  h-20 m-5 shadow-lg rounded-lg">
+                    <h3><%=part.part%></h3>
+                    <div class="flex">
+                        <% for(let i = 1; i <= part.quantity; i++) { %>
+                        <% if(i <= part.quantityCompleted) { %>
+                            <div class="px-3 py-2 w-20 h-20 rounded-full bg-emerald-700 text-white text-4xl flex items-center justify-center">
+                                <span >&check;</span>
+                            </div>
+                        <%}else{ %>
+                            <div class="px-3 py-2 bg-transparent text-emerald-700 border-2 border-emerald-700 rounded-full w-20 h-20 text-4xl flex items-center justify-center">
+                        <span>&check;</span>
+                    </div>
+                        <% } %>
+                   <% }%>
+                   <div class="px-3 py-2 w-20 h-20 rounded-full bg-orange-700 text-white text-4xl flex items-center justify-center">&check;</div>
+                    </div>
+                    
                 </div>
-            
-
+            <% }) %>
+        </div>
+        <a href="/project/<%= project._id %>">Back to Project</a>
+    </div>
+    
+    <div>
+                
                 <form action="/project/addYarn/<%= project._id %>" method="POST" >
                     <!-- <div>
                         <label for="title">Name</label>
@@ -64,7 +80,7 @@
                     </div>
                     <button type="submit">Add</button>
                 </form>
-                <a href="/project/<%= project._id %>">Start Project</a>
+                
             </div>
             <script src="/editProject.ejs"></script>
 </body>
