@@ -15,13 +15,15 @@ projectRouter
     .post(projectController.createProject)
 
 projectRouter
-    .route('/addYarn/:id')
-    .post(projectController.addYarn)
-
-
+    .route('/addYarn/:projectId/:yarnId')
+    .post(projectController.addYarnFromStash)
 
 projectRouter
-    .route('/edit/:id')
+    .route('/deleteColor/:projectId/:yarnId')
+    .post(projectController.deleteColor)
+
+projectRouter
+    .route('/edit/:projectId')
     .get(projectController.editProject)
     .post(projectController.updateProject) 
 

@@ -5,6 +5,7 @@ const connectDB = require('./config/connectDB')
 const mainRoutes = require('./routes/mainRoutes')
 const patternRoutes = require('./routes/patternRoutes')
 const projectRoutes = require('./routes/projectRoutes')
+const yarnRoutes = require('./routes/yarnRoutes')
 const app = express()
 const PORT = process.env.PORT || 3500
 
@@ -20,6 +21,7 @@ app.set('view engine', 'ejs')
 app.use('/', mainRoutes)
 app.use('/pattern', patternRoutes)
 app.use('/project', projectRoutes)
+app.use('/yarn', yarnRoutes)
 
 
 mongoose.connection.once('open', () => {

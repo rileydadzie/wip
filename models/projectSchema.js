@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const colorSchema = new mongoose.Schema({
-    brand: String,
+    yarnId: mongoose.Schema.Types.ObjectId,
     yarnCollection: String,
     colorName: String,
-    colorCode: String,
+    primaryColorCode: String,
     startWeight: Number,
     endWeight: Number,
-    weight: Number
+    weightUsed: Number
 })
 
 const projectPartSchema = new mongoose.Schema({

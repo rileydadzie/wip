@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <h3>Yarn</h3>
+    <div class="p-4">
+                        <form action="/yarn/add" method="POST" >
+                    <!-- <div>
+                        <label for="title">Name</label>
+                        <input type="text" id="title" name="title" value="PATTERNTITLE" required>
+                    </div>   -->
+                    <div class="text-lg">  
+                        <select name="brand" id="brandName" class="">
+                            <option value="brand" selected disabled>Brand</option>
+                            <option value="Bernat">Bernat</option>
+                            <option value="Big Twist">Big Twist</option>
+                            <option value="Premier">Premier</option>
+                        </select>
+                        <input type="text" placeholder="collection" id="yarnCollection" name="yarnCollection">
+                        <input type="number" name="size" id="size" placeholder="size">
+                        <input type="text" placeholder="color name" id="colorName" name="colorName">
+                        <select name="colorType" id="colorType">
+                            <option value="solid" selected>Solid</option>
+                            <option value="varColorChange">Color-Changing</option>
+                            <option value="varDots">Polka-Dots</option>
+                            <option value="varSpeckle">Speckle</option>
+                        </select>
+                        <input type="color" name="primaryColorCode" id="primaryColorCode">
+                        <select name="colorFamily" id="colorFamily">
+                                    <option value="multi">Multi</option>
+                                    <option value="pink">Pink</option>
+                                    <option value="red">Red</option>
+                                    <option value="orange">Orange</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="purple">Purple</option>
+                                    <option value="neutrals">Neutrals</option>
+                                </select>
+                        <input type="number" name="weight" id="weight" placeholder="amount(g)">
+                    </div>
+                    <button id="close-modal-btn-footer" type="submit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded w-sm h-sm">Add</button>
+                </form>
+                    </div>
+
+    <!-- Filter -->
+     <div>
+        <form action="">
+        <fieldset class="border-3 border-emerald-700">
+            <legend>Brand</legend>
+            <label for=""><input type="checkbox" name="brand" value="Bernat">Bernat</label>
+            <label for=""><input type="checkbox" name="brand" value="Big Twist">Big Twist</label>
+            <label for=""><input type="checkbox" name="brand" value="Premier">Premier</label>
+        </fieldset>
+        <fieldset>
+            <legend> Collection </legend>
+            <label for=""><input type="checkbox" name="yarnCollection" value="Blanket">Blanket</label>
+            <label for=""><input type="checkbox" name="yarnCollection" value="Baby Blanket">Baby Blanket</label>
+            <label for=""><input type="checkbox" name="yarnCollection" value="Blanket">Blanket</label>
+            <label for=""><input type="checkbox" name="yarnCollection" value="Blanket">Blanket</label>
+        </fieldset>
+        </form>
+     </div>
+    
+    <div>
+        <div class="flex flex-wrap">
+        <% if(yarns){ %>
+            <% yarns.forEach(color => { %>
+                <div class="w-60 h-90  bg-slate-200 m-4 justify-items-center rounded-3xl shadow-lg inline-block relative">
+                    <% if(color.inUse){ %>
+                        <div class="w-20 h-8 rounded-full bg-lime-300 absolute top-3 left-3 text-center flex justify-center items-center">
+                            <span>In Use</span>
+                        </div>
+                    <% } %>
+                    <div class="w-60 h-60 bg-[<%= color.primaryColorCode %>] rounded-t-3xl"></div>
+                        <div class="text-emerald-800 justify-items-center">
+                            <h2><%= color.colorName %></h2>
+                            <h3><%= color.brand %> <%= color.yarnCollection %></h3>
+                            <span class="block"><%= color.weight %> g</span>
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <a href="/yarn/<%= color._id %>" class="block h-10 bg-emerald-700 w-60  rounded-b-3xl text-center flex justify-center items-center text-lg text-white">See More</a>
+                        </div>
+                
+                    
+                </div>
+            <% }) %>
+            
+        <% } %>
+        
+        </div>
+    </div>
+    
+</body>
+</html>
