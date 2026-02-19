@@ -3,10 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start New Project</title>
+    <title>Edit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-emerald-950">
     <%- include('partials/navbar') %>
+
+    <div class="bg-white w-3/5 m-auto mt-6 rounded-3xl">
+        <div class="bg-orange-700 h-20 rounded-t-3xl flex justify-center justify-items-center">
+            <h1><%= project.title %></h1>
+        </div>
+        <div class="flex flex-col">
+            <% project.colors.forEach(color => { %>
+                        <div class="flex justify-between w-full h-20 m-5 shadow-lg rounded-lg">
+                            <div class="w-20 h-20 rounded-l-lg bg-[<%= color.primaryColorCode %>]"></div>
+                            <div>
+                                <span><%= color.colorName %></span>
+                                <span><%= color.yarnCollection %></span>
+                            </div>
+                            <div>
+                                <span>Start</span>
+                            </div>
+                            <div>
+                                End
+                            </div>
+                            <div class="mr-10">
+                                Delete
+                            </div>
+                        </div>
+                   <% }) %>
+        </div>
+
+    </div>
     <div>
                 <h2><%= project.title %></h2>
                 <div>
@@ -38,5 +66,6 @@
                 </form>
                 <a href="/project/<%= project._id %>">Start Project</a>
             </div>
+            <script src="/editProject.ejs"></script>
 </body>
 </html>

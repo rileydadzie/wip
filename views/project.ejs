@@ -27,7 +27,7 @@
 <div class="grid grid-flow-col grid-cols-3 gap-4 m-6 ">
     <!-- Pattern Info -->
     <div class="col-start-1 bg-slate-200 rounded-xl h-32">
-        <div class="bg-orange-700 col-span-2 w-full h-12 rounded-t-lg">
+        <div class="bg-orange-700 col-span-2 w-full h-12 rounded-t-lg flex justify-center items-center">
             <h2 class="text-white text-4xl text-center"><%= project.title  %></h2>
         </div>
         <div class="flex flex-col text-center p-4">
@@ -52,10 +52,15 @@
                     </a>
                 <% }else { %>
                      <div class="flex flex-col justify-center  items-center">
-                <div class="w-20 h-20 rounded-full bg-[<%= color.colorCode %>]"></div>
-                <h3 class="text-center text-xl text-emerald-700"><%= color.colorName %></h3>
-                <span class="text-center text-base uppercase text-emerald-800"><%=color.brand  %></span>
-            </div>
+                        <div class="w-20 h-20 rounded-full bg-[<%= color.primaryColorCode %>]"></div>
+                        <h3 class="text-center text-xl text-emerald-700"><%= color.colorName %></h3>
+                        <span class="text-center text-base uppercase text-emerald-800"><%=color.brand  %></span>
+                        <div class="flex flex-col justify-center  items-center">
+                            <span>Start Weight</span>
+                            <span>End Weight</span>
+                        </div>
+                    </div>
+            
                 <% } %>
             <%}) %>
             <%if (project.colors.length === 0 || pattern.numOfColors > project.colors.length) { %>
@@ -160,11 +165,16 @@
 </div>
 
     
-    <div>
-        <a href="/project/edit/<%= project._id%>">Edit</a>
-        <form action="/project/delete/<%= project._id%>" method="POST">
+    <div class="flex gap-4">
+        <div class="w-20 h-10 rounded-full grid place-items-center bg-lime-300">
+            <a href="/project/edit/<%= project._id%>">Edit</a>
+        </div>
+        <div class="w-20 h-10 rounded-full grid place-items-center bg-orange-700">
+            <form action="/project/delete/<%= project._id%>" method="POST">
                 <button type="submit">Delete</button>
             </form>
+        </div>
+        
     </div>
     
     

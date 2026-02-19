@@ -1,5 +1,6 @@
 const Project = require('../models/projectSchema')
 const Pattern = require('../models/patternSchema')
+const Yarn = require('../models/yarnSchema')
 
 
 const add = async (req,res) => {
@@ -53,25 +54,34 @@ const createProject = async (req,res) => {
 
 const editProject = async (req,res) => {
     try{
-        const project = await Project.findById(req.params.id)
+        const project = await Project.findById(req.params.projectId)
         res.render('editProject', {project:project})
     } catch(err) {
         console.log(err)
     }
 }
 
-const addYarn = async (req,res) => {
+const addYarnFromStash = async (req,res) => {
     try{
+        const yarn = await Yarn.findById(req.params.yarnId)
         await Project.findByIdAndUpdate(
-            {_id: req.params.id},
+            {_id: req.params.projectId},
             {$push: {colors: {
-                brand: req.body.brand,
-                collection: req.body.collection,
-                colorName: req.body.colorName,
-                colorCode: req.body.colorCode
+                yarnId: yarn._id,
+                yarnCollection: yarn.yarnCollection,
+                colorName: yarn.colorName,
+                colorCode: yarn.colorCode
             }}}
         )
-        res.redirect('/project/' + req.params.id)
+        await Yarn.findByIdAndUpdate(req.params.yarnId,
+            {
+                $set : {
+                    inUse: true
+                }
+
+            }
+        )
+        res.redirect('/project/' + req.params.projectId)
     } catch(err) {
         console.log(err)
     }
@@ -79,8 +89,8 @@ const addYarn = async (req,res) => {
 
 const updateProject = async (req,res) => {
     try{
-        await Project.findByIdAndUpdate(req.params.id, req.body)
-        res.redirect('/')
+        await Project.findByIdAndUpdate(req.params.projectId, req.body)
+        res.redirect('/project/edit/' + req.params.projectId)
     }catch(err) {
         console.log(err)
     }
@@ -216,9 +226,10 @@ const projectPage = async (req,res) => {
     try{
         const project = await Project.findById(req.params.id)
         const pattern = await Pattern.findById(project.pattern)
+        const yarn = await Yarn.find()
         const activePart = project.parts.find(part => part.active === true) || null
         const activePartIndex = project.parts.findIndex(part => part.active === true)
-        res.render('project', {project:project, pattern:pattern, activePart:activePart, activePartIndex: activePartIndex})
+        res.render('project', {project:project, pattern:pattern, activePart:activePart, activePartIndex: activePartIndex, yarn: yarn})
     }catch (err) {
         console.log(err)
     }
@@ -233,8 +244,37 @@ const deleteProject = async (req,res) => {
     }
 }
 
+const deleteColor = async (req,res) => {
+    try{
+        await Project.updateOne(
+            {_id : req.params.projectId},
+            { $pull :
+                {colors: {yarnId: req.params.yarnId}}
+            }
+        )
+
+        await Yarn.updateOne(
+            {_id : req.params.yarnId},
+            {$set : 
+                {inUse: false}
+            }
+        )
+        res.redirect('/project/edit/' + req.params.projectId)
+    }catch (err) {
+        console.log(err)
+    }
+}
+
 const complete = async (req,res) => {
     try{
+        const project = await Project.findById(req.params.projectId)
+        const colors = project.colors.map(color => color.yarnId)
+        await Yarn.updateMany (
+            {_id : { $in : colors}},
+            { $set : 
+                { inUse: false}
+            }
+        )
         await Project.updateOne(
             {_id: req.params.projectId},
             {
@@ -247,6 +287,7 @@ const complete = async (req,res) => {
 
             }
         )
+        
     res.redirect('/')
     } catch (err) {
         console.log(err)
@@ -260,10 +301,11 @@ module.exports = {
     add,
     createProject,
     editProject,
-    addYarn,
+    addYarnFromStash,
     updateProject,
     projectPage,
     deleteProject,
+    deleteColor,
     setActivePart,
     updateRow,
     finishPart,

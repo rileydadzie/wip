@@ -1,27 +1,61 @@
-                <div class="bg-white  rounded-lg shadow-lg max-w-2xl w-4/5 mx-4 ">
-                    <div class="bg-orange-700 col-span-2 w-full rounded-t-lg relative">
-                        <h3 class="text-white text-2xl text-center">Add Yarn</h3>
+                <div class="  rounded-lg shadow-lg max-w-2xl w-4/5 mx-4 relative">
+                    <div class="grid grid-flow-row grid-cols-2">
+                        <div class="bg-orange-700 w-full rounded-t-lg relative" id="yarnFormHeader">
+                            <h3 class="text-white text-2xl text-center">Add Yarn</h3>
+                        </div>
+                        <div class="bg-slate-400 rounded-t-lg" id="yarnStashHeader">
+                            <h3 class="text-white text-2xl text-center">Yarn Stash</h3>
+                        </div>
                         <button id="close-modal-btn" class="text-white hover:text-gray-700 absolute top-1 right-2">&times;</button>
                     </div>
-                    <div class="p-4">
-                        <form action="/project/addYarn/<%= project._id %>" method="POST" >
-                    <!-- <div>
-                        <label for="title">Name</label>
-                        <input type="text" id="title" name="title" value="PATTERNTITLE" required>
-                    </div>   -->
-                    <div class="text-lg">  
-                        <select name="brand" id="brandName" class="">
-                            <option value="brand" selected disabled>Brand</option>
-                            <option value="Bernat">Bernat</option>
-                            <option value="Big Twist">Big Twist</option>
-                            <option value="Premier">Premier</option>
-                        </select>
-                        <input type="text" placeholder="collection" id="collection" name="collection">
-                        <input type="text" placeholder="color name" id="colorName" name="colorName">
-                        <input type="color" name="colorCode" id="colorCode">
+                    
+                    <div class="p-4 bg-white w-full" id="yarnForm">
+                        <form action="/yarn/addToProject/<%= project._id %>" method="POST" >
+                            <div class="text-lg">  
+                                <select name="brand" id="brandName" class="">
+                                    <option value="brand" selected disabled>Brand</option>
+                                    <option value="Bernat">Bernat</option>
+                                    <option value="Big Twist">Big Twist</option>
+                                    <option value="Premier">Premier</option>
+                                </select>
+                                <input type="text" placeholder="collection" id="yarnCollection" name="yarnCollection">
+                                <input type="number" name="size" id="size" placeholder="size">
+                                <input type="text" placeholder="color name" id="colorName" name="colorName">
+                                <select name="colorType" id="colorType">
+                                    <option value="solid" selected>Solid</option>
+                                    <option value="varColorChange">Color-Changing</option>
+                                    <option value="varDots">Polka-Dots</option>
+                                    <option value="varSpeckle">Speckle</option>
+                                </select>
+                                <input type="color" name="primaryColorCode" id="primaryColorCode">
+                                <select name="colorFamily" id="colorFamily">
+                                    <option value="multi">Multi</option>
+                                    <option value="pink">Pink</option>
+                                    <option value="red">Red</option>
+                                    <option value="orange">Orange</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="purple">Purple</option>
+                                    <option value="neutrals">Neutrals</option>
+                                </select>
+                                <input type="number" name="weight" id="weight" placeholder="amount(g)">
+                            </div>
+                            <button id="close-modal-btn-footer" type="submit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded w-sm h-sm">Add</button>
+                        </form>
                     </div>
-                    <button id="close-modal-btn-footer" type="submit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded w-sm h-sm"">Add</button>
-                </form>
+
+                    <div class="p-4 hidden bg-white w-full flex flex-wrap p-3" id="yarnStash">
+                        <% yarn.forEach(color => { %>
+                            <div>
+                                <form action="/project/addYarn/<%= project._id %>/<%= color._id %>" method="POST">
+                                    <button class="bg-[<%= color.primaryColorCode %>] h-20 w-20 rounded-full"></button>
+                                </form>
+                                <span><%= color.colorName %></span>
+                            </div>
+                            
+                       <% }) %>
+
                     </div>
                     
                 </div>
