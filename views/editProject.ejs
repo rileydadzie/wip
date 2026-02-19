@@ -11,8 +11,12 @@
 
     <div class="bg-white w-3/5 m-auto mt-6 rounded-3xl">
         <div class="bg-orange-700 h-20 rounded-t-3xl flex justify-center items-center relative">
-            <h1 class="text-3xl text-white text-center"><%= project.title %></h1>
-            <span class="absolute top-3 right-3">Edit Name</span>
+            <h1 class="text-3xl text-white text-center" id="currentName"><%= project.title %></h1>
+            <form action="/project/edit/<%= project._id %>" method="POST" class="hidden flex gap-4" id="nameEditForm">
+                <input type="text" value="<%= project.title %>" name="title" class="p-3 h-full">
+                <button type="submit" class="w-20 h-10 rounded-full grid place-items-center bg-lime-300">Save</button>
+            </form>
+            <span class="absolute top-3 right-3 w-20 h-10 rounded-full grid place-items-center bg-lime-300 cursor-pointer" id="editProjectName">Edit Name</span>
         </div>
         <div class="flex flex-col">
             <% project.colors.forEach(color => { %>
@@ -28,9 +32,11 @@
                             <div>
                                 End
                             </div>
-                            <div class="mr-10">
-                                Delete
-                            </div>
+                            <div class="w-20 h-10  mr-10 rounded-full grid place-items-center bg-orange-700">
+            <form action="/project/deleteColor/<%= project._id%>/<%= color.yarnId %>" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
                         </div>
                    <% }) %>
         </div>
@@ -56,7 +62,13 @@
                 </div>
             <% }) %>
         </div>
-        <a href="/project/<%= project._id %>">Back to Project</a>
+        <div class="flex items-center justify-center m-4">
+            <a href="" class="h-10 w-60 rounded-full bg-orange-700 text-white flex items-center justify-center">Mark Project Complete</a>
+        </div>
+        <div class="flex items-center justify-center m-4">
+            <a href="/project/<%= project._id %>" class="h-10 w-60 rounded-full bg-lime-300 text-emerald-700 flex items-center justify-center">Back to Project</a>
+        </div>
+        
     </div>
     
     <div>
@@ -82,6 +94,6 @@
                 </form>
                 
             </div>
-            <script src="/editProject.ejs"></script>
+            <script src="/editProject.js"></script>
 </body>
 </html>
