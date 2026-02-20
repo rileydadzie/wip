@@ -8,12 +8,22 @@ yarnRouter
     .post(yarnController.addYarnToProject)
 
 yarnRouter
+    .route('/varigated/:yarnId')
+    .post(yarnController.addVarColor)
+
+yarnRouter  
+    .route('/:yarnId')
+    .get(yarnController.infoPage)
+
+yarnRouter
     .route('/add')
     .post(yarnController.addYarn)
+
 
 yarnRouter
     .route('/')
     .get(yarnController.yarnPage)
+
 
 
 

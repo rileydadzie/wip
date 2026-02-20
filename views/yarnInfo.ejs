@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= yarn.colorName %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #counterNum::-webkit-outer-spin-button,
+        #counterNum::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        #counterNum {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-emerald-950">
+    <%- include('partials/navbar') %>
+
+    
+
+    <div class="bg-white w-3/5 m-auto mt-6 rounded-3xl flex flex-col justify-center">
+        <div class="h-30 bg-[<%= yarn.primaryColorCode %>] rounded-t-3xl flex justify-center items-center">
+            <h1><%= yarn.colorName %></h1>
+            <span>Edit</span>
+        </div>
+        <div class="h-50 w-full flex justify-center items-center">
+            <% if(yarn.colorType !== 'solid') { %>
+                <form action="/yarn/varigated/<%= yarn._id %>" method="POST">
+                    <input type="color" name="varColorCode" id="varColorCode">
+                    <button type="submit">Add Color</button>
+                </form>
+            <%}%>
+        </div>
+        <div>
+            <span>projects</span>
+        </div>
+        <div>
+            <a href="/yarn">Back to Yarn Stash</a>
+        </div>
+    </div>
+
+
+    
+    
+</body>
+</html>

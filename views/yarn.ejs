@@ -79,8 +79,12 @@
                             <span>In Use</span>
                         </div>
                     <% } %>
-                    <div class="w-60 h-60 bg-[<%= color.primaryColorCode %>] rounded-t-3xl">
-                        
+                    <div class="w-60 h-60 bg-[<%= color.primaryColorCode %>] rounded-t-3xl flex flex-col place-content-center gap-2">
+                        <% if(color.colorType === 'varColorChange'){ %>
+                            <% color.varColorCodes.forEach(code => { %>
+                                <div class="w-60 h-10 bg-[<%= code %>]"></div>
+                           <% }) %>
+                       <% } %>
                     </div>
                         <div class="text-emerald-800 justify-items-center">
                             <h2><%= color.colorName %></h2>

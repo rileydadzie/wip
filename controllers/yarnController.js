@@ -11,6 +11,16 @@ const yarnPage = async (req, res) => {
         console.log(err)
     }
 }
+
+const infoPage = async (req, res) => {
+    try {
+        const yarn = await Yarn.findById(req.params.yarnId)
+        res.render('yarnInfo', {yarn:yarn})
+    }catch(err) {
+        console.log(err)
+    }
+}
+
 const addYarn = async (req,res) => {
     try {
         const yarn = new Yarn ({
@@ -19,6 +29,7 @@ const addYarn = async (req,res) => {
             size: req.body.size,
             colorName: req.body.colorName,
             colorFamily: req.body.colorFamily,
+            colorType: req.body.colorType,
             primaryColorCode: req.body.primaryColorCode,
             weight: req.body.weight,
             inUse: false 
@@ -31,6 +42,19 @@ const addYarn = async (req,res) => {
     }
 }
 
+const addVarColor = async (req,res) => {
+    try{
+        const colorCode = String(req.body.varColorCode)
+        await Yarn.updateOne(
+            {_id : req.params.yarnId},
+            { $push : { varColorCodes : colorCode}}
+        )
+        res.redirect('/yarn/' + req.params.yarnId)
+    }catch(err) {
+        console.log(err)
+    }
+}
+
 const addYarnToProject = async (req,res, next) => {
     try {
         const yarn = new Yarn ({
@@ -39,6 +63,7 @@ const addYarnToProject = async (req,res, next) => {
             size: req.body.size,
             colorName: req.body.colorName,
             colorFamily: req.body.colorFamily,
+            colorType: req.body.colorType,
             primaryColorCode: req.body.primaryColorCode,
             weight: req.body.weight,
             inUse: true 
@@ -62,45 +87,13 @@ const addYarnToProject = async (req,res, next) => {
     }
 }
 
-// const addYarn = async (req,res) => {
-//     try{
-//         const yarn = await Yarn.find({brand: req.brand, yarnCollection: req.yarnCollection}) || null
-//          if(!yarn){
-//             const addedYarn = new Yarn ({
-//                 brand: req.body.brand,
-//                 yarnCollection: req.body.yarnCollection,
-//                 size: req.body.size
-//             })
-//             await addedYarn.save()
-//         }
-//         const updatedYarn = await Yarn.findOneAndUpdate({brand: req.brand, yarnCollection: req.yarnCollection},
-//             {$push : { colors : {
-                // colorName: req.body.colorName,
-                // colorCode: req.body.colorCode,
-                // weight: req.body.weight
-//             },
-//             }},
-//             {returnDocument: 'after'}
-//         )
-//         console.log(updatedYarn)
-//         // const updatedId = updatedYarn._id
-//         // await Project.findByIdAndUpdate(
-//         //     {_id: req.params.projectId},
-//         //     {$push: {colors: {
-//         //         yarnId: updatedId,
-//         //         colorName: req.body.colorName,
-//         //         colorCode: req.body.colorCode
-//         //     }}}
-//         // )
-//         res.redirect('/project/' + req.params.projectId)
-//     } catch(err) {
-//         console.log(err)
-//     }
-// }
+
 
 
 module.exports = {
     yarnPage,
+    infoPage,
+    addVarColor,
     addYarn,
     addYarnToProject
 }

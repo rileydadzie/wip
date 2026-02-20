@@ -9,7 +9,7 @@ const yarnSchema = new mongoose.Schema({
     colorFamily: String,
     primaryColorCode: String,
     colorType: String,
-    varColorCodes: Array,
+    varColorCodes: [String],
     weight: Number,
     inUse: Boolean
 })
