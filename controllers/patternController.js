@@ -1,5 +1,6 @@
 const Pattern = require('../models/patternSchema')
 const Project = require('../models/projectSchema')
+const mongoose = require('mongoose')
 // const multer = require('multer')
 
 // multer config for image upload
@@ -51,7 +52,20 @@ const patternPage = async (req,res) => {
     try{
         const pattern = await Pattern.findById(req.params.id)
         const patternProjects = await Project.find({pattern: req.params.id}) || null
-        res.render('pattern', {pattern:pattern, patternProjects: patternProjects})
+        const patternId = new mongoose.Types.ObjectId(req.params.id)
+        const timesMade = await Project.aggregate([
+            { $match: {pattern : patternId} },
+            {
+                $group: {
+                    _id: "$pattern",
+                    totalMade: {$sum : "$timesMade"},
+                    openProjects: {
+                        $sum: { $cond: [{ $eq: ["$complete", false]}, 1, 0]}
+                    }
+                }
+            }
+        ])
+        res.render('pattern', {pattern:pattern, patternProjects: patternProjects, made: timesMade})
     } catch(err) {
         console.log(err)
     }

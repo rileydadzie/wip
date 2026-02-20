@@ -295,6 +295,36 @@ const complete = async (req,res) => {
     }
 }
 
+const makeAgain = async (req,res) => {
+    try {
+        const project = await Project.findById(req.params.projectId)
+        await Project.updateOne(
+            {_id: req.params.projectId},
+            {
+                $set: {
+                    progress : 0,
+                    completedRows: 0,
+                    "parts.$[].complete" : false,
+                    "parts.$[].active" : false,
+                    "parts.$[].quantityCompleted" : 0,
+                    "parts.$[].currentRow" : 0,
+                    complete: false
+                }
+            }
+        )
+        const colors = project.colors.map(color => color.yarnId)
+        await Yarn.updateMany (
+            {_id : { $in : colors}},
+            { $set : 
+                { inUse: true}
+            }
+        )
+        res.redirect('/project/' + req.params.projectId)
+    }catch(err) {
+        console.log(err)
+    }
+}
+
 
 
 
@@ -312,6 +342,7 @@ module.exports = {
     finishPart,
     updateProgress,
     markCompletePart,
-    complete   
+    complete,
+    makeAgain   
     // projectPage
 }

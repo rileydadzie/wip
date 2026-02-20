@@ -32,6 +32,10 @@ projectRouter
     .post(projectController.deleteProject)
 
 projectRouter
+    .route('/makeAgain/:projectId')
+    .post(projectController.makeAgain)
+
+projectRouter
     .route('/part/rowCount/:projectId/:partIndex')
     .post(projectController.updateRow)
 

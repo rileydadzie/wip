@@ -10,6 +10,9 @@
     <%- include('partials/navbar') %>
 
     <h3>Yarn</h3>
+    <div>
+        <span>Total Yarn: <%= totalYarnWeight[0].totalWeight %> g</span>
+    </div>
     <div class="p-4">
                         <form action="/yarn/add" method="POST" >
                     <!-- <div>

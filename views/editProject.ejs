@@ -20,29 +20,32 @@
         </div>
         <div class="flex flex-col">
             <% project.colors.forEach(color => { %>
-                        <div class="flex justify-between  h-20 m-5 shadow-lg rounded-lg">
-                            <div class="w-20 h-20 rounded-l-lg bg-[<%= color.primaryColorCode %>]"></div>
-                            <div class="flex flex-col ">
+                        <div class="grid grid-cols-5  h-20 m-5 shadow-lg rounded-lg  items-center">
+                            <div class="w-20 h-20 rounded-l-lg bg-[<%= color.primaryColorCode %>] col-start-1"></div>
+                            <div class="flex flex-col col-start2">
                                 <span class="text-lg text-emerald-700"><%= color.colorName %></span>
                                 <span class="text-md text-emerald-800 uppercase"><%= color.yarnCollection %></span>
                             </div>
-                            <div>
+                            <div class="col-start-3 place-items-center content-center text-center">
                                 <span>Start</span>
                             </div>
-                            <div>
+                            <div class="col-start-4 place-items-center content-center text-center">
                                 End
                             </div>
-                            <div class="w-20 h-10  mr-10 rounded-full grid place-items-center bg-orange-700">
+                            <div class="col-start-5 place-items-center content-center">
             <form action="/project/deleteColor/<%= project._id%>/<%= color.yarnId %>" method="POST">
-                <button type="submit">Delete</button>
+                <button type="submit" class="w-20 h-10  mr-10 rounded-full grid place-items-center bg-orange-700">Delete</button>
             </form>
         </div>
                         </div>
                    <% }) %>
+                   <div class="grid grid-cols-5  h-20 m-5 shadow-lg rounded-lg"> 
+                    <span class="col-start-3">Add Yarn</span>
+                   </div>
         </div>
         <div>
             <% project.parts.forEach((part,index) => { %>
-                <div class="flex  h-20 m-5 shadow-lg rounded-lg">
+                <div class="flex  h-30 m-5 shadow-lg rounded-lg p-5">
                     <h3><%=part.part%></h3>
                     <div class="flex">
                         <% for(let i = 1; i <= part.quantity; i++) { %>
@@ -63,7 +66,9 @@
             <% }) %>
         </div>
         <div class="flex items-center justify-center m-4">
-            <a href="" class="h-10 w-60 rounded-full bg-orange-700 text-white flex items-center justify-center">Mark Project Complete</a>
+            <form action="/project/complete/<%= project._id %>" method="POST">
+                <button type="submit" class="h-10 w-60 rounded-full bg-orange-700 text-white flex items-center justify-center"> Mark Project Complete</button>
+            </form>
         </div>
         <div class="flex items-center justify-center m-4">
             <a href="/project/<%= project._id %>" class="h-10 w-60 rounded-full bg-lime-300 text-emerald-700 flex items-center justify-center">Back to Project</a>

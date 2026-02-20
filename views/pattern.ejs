@@ -73,11 +73,11 @@
     <div class="col-start-2 col-span-2 w-full relative bg-slate-200 flex items-center justify-center rounded-xl">
         <div class="flex justify-evenly grow items-center p-3">
                 <div class="flex flex-col justify-center items-center">
-                    <span class="text-xl"><%= patternProjects.length%></span>
+                    <span class="text-xl"><%= patternProjects.length > 0 ? made[0].openProjects : 0 %></span>
                     <span class="uppercase text-md">Open Projects</span>
                 </div>
                 <div class="flex flex-col justify-center items-center">
-                    <span class="text-xl">6</span>
+                    <span class="text-xl"><%= patternProjects.length > 0 ? made[0].totalMade : 0%></span>
                     <span class="uppercase text-md">Times Made</span>
                 </div>
                 <div class="flex flex-col justify-center items-center">
@@ -88,21 +88,25 @@
     </div>
 
 
-    <!-- Progress Checkmarks -->
+    <!-- Previous Projects -->
      <div class="col-start-2 col-span-2 row-span-2 w-full bg-slate-200 flex flex-wrap rounded-xl gap-3 p-5">
-        <div>
+        <div class="flex flex-col w-full">
             <% if(patternProjects) { %>
             <% patternProjects.forEach(project => { %>
-                <div class=" bg-white rounded-xl">
+                <div class=" bg-white flex justify-between  h-20 m-5 shadow-lg rounded-lg ">
                     <div class="flex flex-row justify-evenly p-4 gap-1">
                 <% project.colors.forEach(color => { %>
-                    <div class="w-10 h-10 rounded-full bg-[<%= color.colorCode %>]"></div>
+                    <div class="w-10 h-10 rounded-lg bg-[<%= color.primaryColorCode %>]"></div>
                 <% }) %>
                     </div>
-                    <% if(project.progress === 100) { %>
-                        <div class="w-full bg-orange-700 text-white">
-                            <form action="">
-                                <button class="w-full"> Make Again</button>
+                    
+                    <% if(project.complete === true) { %>
+                        <div>
+                        <span><%= project.timesMade %></span>
+                        </div>
+                        <div class="w-full flex justify-center items-center">
+                            <form action="/project/makeAgain/<%= project._id %>" method="POST">
+                                <button class="w-full h-full bg-orange-700 text-white " type="submit"> Make Again</button>
                             </form>
                         </div>
 
@@ -111,7 +115,7 @@
                             <span> <%= project.progress %>% Complete</span>
                         </div>
                         <div class="w-full bg-emerald-700 text-white">
-                           <a href=""> Go to Project</a>
+                           <a href="/project/<%= project._id %>"> Go to Project</a>
                         </div>
                    <% } %>
             </div>

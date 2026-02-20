@@ -6,7 +6,17 @@ const Yarn = require('../models/yarnSchema')
 const yarnPage = async (req, res) => {
     try {
         const yarns = await Yarn.find()
-        res.render('yarn', {yarns:yarns})
+        const totalYarnWeight = await Yarn.aggregate (
+            [
+                {
+                    $group: {
+                        _id: null,
+                        totalWeight: {$sum : "$weight" }
+                    }
+                }
+            ]
+        )
+        res.render('yarn', {yarns:yarns, totalYarnWeight: totalYarnWeight})
     } catch(err) {
         console.log(err)
     }
