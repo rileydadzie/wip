@@ -179,11 +179,12 @@ const updateRow = async (req,res) => {
     try{
         const project = await Project.findById(req.params.projectId)
         const partIndex = Number(req.params.partIndex)
+        const numOfParts = project.parts.length
         const quantity = Number(project.parts[partIndex].quantity)
         const quantityCompleted = Number(project.parts[partIndex].quantityCompleted)
         
   
-        if(quantityCompleted === quantity) {
+        if(quantityCompleted === quantity && partIndex < numOfParts - 1) {
             const nextIndex = partIndex + 1
             await Project.updateOne(
                 {_id: req.params.projectId},
